@@ -1,0 +1,22 @@
+# Lotería Zero — Flipper Zero FAP manifest
+# See: documentation/AppManifests.md in flipperzero-firmware
+
+App(
+    appid="loteria_zero",
+    name="Loteria Zero",
+    apptype=FlipperAppType.EXTERNAL,
+    entry_point="loteria_zero_app",
+    stack_size=4 * 1024,
+    fap_version=(1, 0),
+    fap_category="Games",
+    fap_icon="loteria_zero.png",
+    fap_description="La tradicion en tus manos. Cantor digital de Loteria Mexicana.",
+    fap_author="Loteria Zero",
+    fap_weburl="https://github.com/loteria-zero/loteria-zero",
+    fap_icon_assets="images",
+    fap_file_assets="files",
+    sources=[
+        "src/*.c",
+        "src/scenes/*.c",
+    ],
+)
