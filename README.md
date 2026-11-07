@@ -8,13 +8,13 @@ Identidad visual: tradición mexicana + estética retro + minimalismo monocromo 
 
 ---
 
-## Una dedicatoria especial
+## A special dedication
 
-# Para Antonella
+# For APA
 
-La inspiración detrás de cada línea de código, cada idea y cada proyecto.
+The inspiration behind every line of code, every idea, and every project.
 
-Porque las mejores creaciones nacen de aquello que más queremos.
+Because the best creations are born from what we love most.
 
 ---
 
@@ -164,10 +164,10 @@ Valida: 54 cartas, IDs únicos, rimas, ilustraciones, orden tradicional, shuffle
 - Plataforma: Flipper Zero Official Firmware SDK / uFBT
 - Proyecto: **Lotería Zero**
 
-## Una dedicatoria especial
+## A special dedication
 
-# Para Antonella
+# For APA
 
-La inspiración detrás de cada línea de código, cada idea y cada proyecto.
+The inspiration behind every line of code, every idea, and every project.
 
-Porque las mejores creaciones nacen de aquello que más queremos.
+Because the best creations are born from what we love most.

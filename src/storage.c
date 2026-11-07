@@ -50,11 +50,11 @@ uint32_t loteria_auto_mode_ms(uint8_t mode) {
 const char* loteria_auto_mode_label(uint8_t mode) {
     switch(mode) {
     case LoteriaAuto5s:
-        return "5 segundos";
+        return "5 seconds";
     case LoteriaAuto10s:
-        return "10 segundos";
+        return "10 seconds";
     case LoteriaAuto15s:
-        return "15 segundos";
+        return "15 seconds";
     default:
         return "Manual";
     }

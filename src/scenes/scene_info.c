@@ -3,10 +3,9 @@
 
 #include <stdio.h>
 
-/* Exact dedication body (UTF-8). Flipper fonts may omit some accents. */
 static const char* k_dedication_body =
-    "La inspiración detrás de cada línea de código, cada idea y cada proyecto.\n\n"
-    "Porque las mejores creaciones nacen de aquello que más queremos.";
+    "The inspiration behind every line of code, every idea, and every project.\n\n"
+    "Because the best creations are born from what we love most.";
 
 static void loteria_scene_our_story_button(
     GuiButtonType result,
@@ -23,12 +22,12 @@ void loteria_scene_our_story_on_enter(void* context) {
     widget_reset(app->widget);
 
     widget_add_string_element(
-        app->widget, 64, 1, AlignCenter, AlignTop, FontSecondary, "Una dedicatoria especial");
+        app->widget, 64, 1, AlignCenter, AlignTop, FontSecondary, "A special dedication");
     widget_add_string_element(
-        app->widget, 64, 12, AlignCenter, AlignTop, FontPrimary, "Para Antonella");
+        app->widget, 64, 12, AlignCenter, AlignTop, FontPrimary, "For APA");
     widget_add_text_scroll_element(app->widget, 2, 24, 124, 28, k_dedication_body);
     widget_add_button_element(
-        app->widget, GuiButtonTypeLeft, "Volver", loteria_scene_our_story_button, app);
+        app->widget, GuiButtonTypeLeft, "Back", loteria_scene_our_story_button, app);
 
     view_dispatcher_switch_to_view(app->view_dispatcher, LoteriaViewWidget);
 }
@@ -57,17 +56,16 @@ void loteria_scene_about_on_enter(void* context) {
         128,
         64,
         "\e#LOTERIA ZERO\n"
-        "La tradicion en tus manos.\n\n"
-        "Cantor digital de la Loteria Mexicana para Flipper Zero.\n\n"
-        "54 cartas · rimas originales\n"
+        "Tradition in your hands.\n\n"
+        "Digital Mexican Loteria caller for Flipper Zero.\n\n"
+        "54 cards - original rhymes\n"
         "Version 1.0\n\n"
-        "Controles en juego (gira el Flipper):\n"
-        "OK: siguiente\n"
-        "LEFT: anterior\n"
-        "RIGHT: actual\n"
-        "UP: pausa\n"
+        "Controls (hold Flipper vertical):\n"
+        "OK / RIGHT: next\n"
+        "LEFT: previous\n"
+        "UP / DOWN: rhyme\n"
         "BACK: menu\n\n"
-        "Para Antonella");
+        "For APA");
     view_dispatcher_switch_to_view(app->view_dispatcher, LoteriaViewWidget);
 }
 
@@ -91,12 +89,12 @@ void loteria_scene_stats_on_enter(void* context) {
     snprintf(
         buf,
         sizeof(buf),
-        "\e#Estadisticas\n\n"
-        "Partidas: %lu\n"
-        "Completadas: %lu\n"
-        "Interrumpidas: %lu\n"
-        "Cartas cantadas: %lu\n"
-        "Ultima: %lu",
+        "\e#Statistics\n\n"
+        "Games played: %lu\n"
+        "Completed: %lu\n"
+        "Interrupted: %lu\n"
+        "Cards called: %lu\n"
+        "Last played: %lu",
         (unsigned long)app->persist.stats.games_played,
         (unsigned long)app->persist.stats.games_completed,
         (unsigned long)app->persist.stats.games_interrupted,
@@ -124,7 +122,7 @@ void loteria_scene_stats_on_exit(void* context) {
 
 void loteria_scene_history_on_enter(void* context) {
     LoteriaApp* app = context;
-    FuriString* text = furi_string_alloc_set("\e#Historial\n");
+    FuriString* text = furi_string_alloc_set("\e#History\n");
     uint8_t sung = loteria_game_sung_count(&app->game);
 
     if(sung == 0 && app->persist.has_saved_game) {
@@ -133,7 +131,7 @@ void loteria_scene_history_on_enter(void* context) {
     }
 
     furi_string_cat_printf(
-        text, "Cantadas: %u\nPendientes: %u\n\n", sung, (unsigned)(LOTERIA_CARD_COUNT - sung));
+        text, "Called: %u\nPending: %u\n\n", sung, (unsigned)(LOTERIA_CARD_COUNT - sung));
 
     for(uint8_t i = 0; i < sung && i < 20; i++) {
         const LoteriaCard* card = &loteria_cards[app->game.order[i]];
@@ -143,7 +141,7 @@ void loteria_scene_history_on_enter(void* context) {
         furi_string_cat(text, "...\n");
     }
 
-    furi_string_cat(text, "\n\e#Pendientes\n");
+    furi_string_cat(text, "\n\e#Pending\n");
     uint8_t shown = 0;
     for(uint8_t id = 1; id <= LOTERIA_CARD_COUNT && shown < 15; id++) {
         if(!loteria_game_is_sung(&app->game, id)) {
@@ -192,7 +190,7 @@ static void loteria_all_cards_show_detail(LoteriaApp* app) {
 void loteria_scene_all_cards_on_enter(void* context) {
     LoteriaApp* app = context;
     submenu_reset(app->submenu);
-    submenu_set_header(app->submenu, "54 cartas");
+    submenu_set_header(app->submenu, "54 cards");
     for(uint8_t i = 0; i < LOTERIA_CARD_COUNT; i++) {
         submenu_add_item(
             app->submenu, loteria_cards[i].name, i, loteria_all_cards_callback, app);
@@ -233,18 +231,18 @@ void loteria_scene_game_end_on_enter(void* context) {
     LoteriaApp* app = context;
     widget_reset(app->widget);
     widget_add_string_element(
-        app->widget, 64, 6, AlignCenter, AlignTop, FontPrimary, "FIN DE LA PARTIDA!");
+        app->widget, 64, 6, AlignCenter, AlignTop, FontPrimary, "GAME OVER!");
     widget_add_text_scroll_element(
         app->widget,
         0,
         20,
         128,
         24,
-        "Que no se quede ninguna tabla sin ganar!");
+        "May every board find a winner!");
     widget_add_button_element(
         app->widget, GuiButtonTypeLeft, "Menu", loteria_scene_game_end_button, app);
     widget_add_button_element(
-        app->widget, GuiButtonTypeRight, "Nueva", loteria_scene_game_end_button, app);
+        app->widget, GuiButtonTypeRight, "New", loteria_scene_game_end_button, app);
     view_dispatcher_switch_to_view(app->view_dispatcher, LoteriaViewWidget);
 }
 

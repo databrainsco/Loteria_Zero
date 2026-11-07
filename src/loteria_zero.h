@@ -66,6 +66,7 @@ typedef struct {
     uint8_t all_cards_index;
     uint8_t history_offset;
     bool viewing_previous;
+    int8_t rhyme_scroll;
 
     FuriTimer* auto_timer;
 } LoteriaApp;

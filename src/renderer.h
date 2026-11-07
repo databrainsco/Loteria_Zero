@@ -14,14 +14,7 @@ typedef struct {
     bool showing_previous;
     bool finished;
     uint8_t auto_mode;
+    int8_t rhyme_scroll;
 } LoteriaRenderModel;
 
 void loteria_renderer_draw_card(Canvas* canvas, const LoteriaRenderModel* model);
-void loteria_renderer_draw_wrapped(
-    Canvas* canvas,
-    int32_t x,
-    int32_t y,
-    int32_t width,
-    Font font,
-    Align horizontal,
-    const char* text);

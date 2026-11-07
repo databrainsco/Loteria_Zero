@@ -43,6 +43,17 @@ class CatalogTests(unittest.TestCase):
         errors = validate(self.catalog, self.images)
         self.assertEqual(errors, [])
 
+    def test_generated_display_strings_are_ascii(self) -> None:
+        from gen_cards import to_ascii
+
+        for card in self.catalog["cards"]:
+            name = to_ascii(card["name"])
+            rhyme = to_ascii(card["rhyme"])
+            self.assertTrue(name.isascii(), card["name"])
+            self.assertTrue(rhyme.isascii(), card["rhyme"])
+            self.assertTrue(len(name) > 0)
+            self.assertTrue(len(rhyme) > 0)
+
     def test_traditional_order_names(self) -> None:
         expected = [
             "El Gallo",
@@ -117,14 +128,14 @@ class CatalogTests(unittest.TestCase):
 class DedicationTests(unittest.TestCase):
     def test_readme_contains_exact_dedication(self) -> None:
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("## Una dedicatoria especial", readme)
-        self.assertIn("# Para Antonella", readme)
+        self.assertIn("## A special dedication", readme)
+        self.assertIn("# For APA", readme)
         self.assertIn(
-            "La inspiración detrás de cada línea de código, cada idea y cada proyecto.",
+            "The inspiration behind every line of code, every idea, and every project.",
             readme,
         )
         self.assertIn(
-            "Porque las mejores creaciones nacen de aquello que más queremos.",
+            "Because the best creations are born from what we love most.",
             readme,
         )
 

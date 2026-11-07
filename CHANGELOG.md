@@ -8,9 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Planned
-- Device screenshots for README and Flipper Apps Catalog
-- GitHub Release packaging for `loteria_zero.fap`
-- Catalog submission materials
+- Authentic qFlipper screenshots in `screenshots/`
+- Flipper Apps Catalog `manifest.yml` pull request
 
 ## [1.0.0] - 2026-11-06
 
@@ -18,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - First stable release candidate for Flipper Zero (FAP)
 - Full game loop: new game, continue, pause, previous card
 - History, statistics, settings, and auto-call modes (5 / 10 / 15 s)
-- Welcome flow with dedication to Antonella (skippable)
+- Welcome flow with dedication to APA (skippable)
 - "Nuestra historia" menu section
 - Persistent save via official Storage / saved_struct APIs
 - Vertical card view during play (`ViewOrientationVertical`)
@@ -46,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 - MVP: menú principal, motor Fisher-Yates, navegación de escenas
-- Bienvenida y dedicación a Antonella
+- Welcome and dedication to APA
 - `application.fam` y estructura modular del FAP
 
 [Unreleased]: https://github.com/databrainsco/Loteria_Zero/compare/v1.0.0...HEAD

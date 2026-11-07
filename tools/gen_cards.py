@@ -72,6 +72,42 @@ def c_escape(s: str) -> str:
     return s.replace("\\", "\\\\").replace('"', '\\"')
 
 
+# Flipper fonts are ASCII-oriented; fold display strings for the device.
+_ASCII_MAP = str.maketrans(
+    {
+        "á": "a",
+        "Á": "A",
+        "é": "e",
+        "É": "E",
+        "í": "i",
+        "Í": "I",
+        "ó": "o",
+        "Ó": "O",
+        "ú": "u",
+        "Ú": "U",
+        "ü": "u",
+        "Ü": "U",
+        "ñ": "n",
+        "Ñ": "N",
+        "¡": "",
+        "¿": "",
+        "—": "-",
+        "–": "-",
+        "…": "...",
+        "·": "-",
+        "“": '"',
+        "”": '"',
+        "‘": "'",
+        "’": "'",
+    }
+)
+
+
+def to_ascii(s: str) -> str:
+    folded = s.translate(_ASCII_MAP)
+    return folded.encode("ascii", "ignore").decode("ascii")
+
+
 def generate(catalog: dict, out_h: Path, out_c: Path) -> None:
     cards = sorted(catalog["cards"], key=lambda c: c["id"])
     out_h.write_text(
@@ -107,14 +143,18 @@ extern const LoteriaCard loteria_cards[LOTERIA_CARD_COUNT];
         '#include "cards_data.h"',
         '#include "loteria_zero_icons.h"',
         "",
+        "/* Display strings are ASCII-folded for Flipper fonts.",
+        " * Canonical Unicode text remains in cards.json. */",
         "const LoteriaCard loteria_cards[LOTERIA_CARD_COUNT] = {",
     ]
     for card in cards:
+        name = to_ascii(card["name"])
+        rhyme = to_ascii(card["rhyme"])
         lines.append(
             "    {"
             f'{card["id"]}, '
-            f'"{c_escape(card["name"])}", '
-            f'"{c_escape(card["rhyme"])}", '
+            f'"{c_escape(name)}", '
+            f'"{c_escape(rhyme)}", '
             f'&I_{card["image"]}'
             "},"
         )

@@ -7,6 +7,11 @@ typedef struct {
     LoteriaApp* app;
 } GameViewModel;
 
+static void loteria_game_view_redraw(LoteriaApp* app) {
+    with_view_model(
+        app->game_view, GameViewModel * model, { UNUSED(model); }, true);
+}
+
 static void loteria_game_view_draw_callback(Canvas* canvas, void* model) {
     LoteriaApp* app = ((GameViewModel*)model)->app;
     LoteriaRenderModel render = {0};
@@ -16,6 +21,7 @@ static void loteria_game_view_draw_callback(Canvas* canvas, void* model) {
     render.auto_mode = app->persist.auto_mode;
     render.finished = app->game.finished;
     render.showing_previous = app->viewing_previous;
+    render.rhyme_scroll = app->rhyme_scroll;
 
     if(app->viewing_previous) {
         render.card = loteria_game_previous_card(&app->game);
@@ -26,6 +32,22 @@ static void loteria_game_view_draw_callback(Canvas* canvas, void* model) {
     loteria_renderer_draw_card(canvas, &render);
 }
 
+static void loteria_game_request_next(LoteriaApp* app) {
+    if(app->viewing_previous) {
+        app->viewing_previous = false;
+        app->rhyme_scroll = 0;
+        loteria_game_view_redraw(app);
+        return;
+    }
+    if(app->game.paused) {
+        app->game.paused = false;
+        loteria_auto_timer_apply(app);
+        loteria_game_view_redraw(app);
+        return;
+    }
+    view_dispatcher_send_custom_event(app->view_dispatcher, LoteriaCustomEventGameNext);
+}
+
 static bool loteria_game_view_input_callback(InputEvent* event, void* context) {
     LoteriaApp* app = context;
     if(event->type != InputTypeShort && event->type != InputTypeRepeat) {
@@ -34,42 +56,31 @@ static bool loteria_game_view_input_callback(InputEvent* event, void* context) {
 
     switch(event->key) {
     case InputKeyOk:
-        if(app->viewing_previous) {
-            app->viewing_previous = false;
-            view_commit_model(app->game_view, true);
-            return true;
-        }
-        if(app->game.paused) {
-            app->game.paused = false;
-            loteria_auto_timer_apply(app);
-            view_commit_model(app->game_view, true);
-            return true;
-        }
-        view_dispatcher_send_custom_event(app->view_dispatcher, LoteriaCustomEventGameNext);
+        loteria_game_request_next(app);
+        return true;
+    case InputKeyRight:
+        loteria_game_request_next(app);
         return true;
     case InputKeyLeft:
         if(loteria_game_previous_card(&app->game)) {
             app->viewing_previous = true;
-            view_commit_model(app->game_view, true);
+            app->rhyme_scroll = 0;
+            loteria_game_view_redraw(app);
         }
         return true;
-    case InputKeyRight:
-        app->viewing_previous = false;
-        view_commit_model(app->game_view, true);
-        return true;
     case InputKeyUp:
-        /* Pause / resume */
-        app->game.paused = !app->game.paused;
-        loteria_auto_timer_apply(app);
-        view_commit_model(app->game_view, true);
+        if(app->rhyme_scroll > 0) {
+            app->rhyme_scroll--;
+        }
+        loteria_game_view_redraw(app);
         return true;
     case InputKeyDown:
-        /* Force stop auto */
+        app->rhyme_scroll++;
         if(app->persist.auto_mode != LoteriaAutoManual) {
             app->game.paused = true;
             loteria_auto_timer_apply(app);
-            view_commit_model(app->game_view, true);
         }
+        loteria_game_view_redraw(app);
         return true;
     default:
         break;
@@ -80,9 +91,10 @@ static bool loteria_game_view_input_callback(InputEvent* event, void* context) {
 void loteria_scene_game_on_enter(void* context) {
     LoteriaApp* app = context;
     app->viewing_previous = false;
+    app->rhyme_scroll = 0;
 
     with_view_model(
-        app->game_view, GameViewModel * model, { model->app = app; }, true);
+        app->game_view, GameViewModel * model, { model->app = app; }, false);
 
     view_set_orientation(app->game_view, ViewOrientationVertical);
     view_dispatcher_switch_to_view(app->view_dispatcher, LoteriaViewGame);
@@ -100,7 +112,8 @@ bool loteria_scene_game_on_event(void* context, SceneManagerEvent event) {
            event.event == LoteriaCustomEventGameAutoTick) {
             if(app->viewing_previous) {
                 app->viewing_previous = false;
-                view_commit_model(app->game_view, true);
+                app->rhyme_scroll = 0;
+                loteria_game_view_redraw(app);
                 return true;
             }
             if(app->game.paused && event.event == LoteriaCustomEventGameAutoTick) {
@@ -125,10 +138,11 @@ bool loteria_scene_game_on_event(void* context, SceneManagerEvent event) {
                 app->persist.stats.cards_sung++;
                 loteria_notify_card(app);
             }
+            app->rhyme_scroll = 0;
+            /* Keep save in RAM during play; flush on Back / exit / game end. */
             app->persist.saved_game = app->game;
             app->persist.has_saved_game = loteria_game_has_save(&app->game);
-            loteria_app_save(app);
-            view_commit_model(app->game_view, true);
+            loteria_game_view_redraw(app);
             loteria_auto_timer_apply(app);
 
             if(!ok || after_count >= LOTERIA_CARD_COUNT) {

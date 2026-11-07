@@ -32,28 +32,28 @@ static void loteria_scene_welcome_show(LoteriaApp* app) {
             AlignCenter,
             AlignTop,
             FontSecondary,
-            "La tradicion en\ntus manos.");
+            "Tradition in\nyour hands.");
         widget_add_button_element(
             app->widget,
             GuiButtonTypeCenter,
-            "Continuar",
+            "Continue",
             loteria_scene_welcome_button_callback,
             app);
         break;
     case WelcomePageDedication1:
         widget_add_string_element(
-            app->widget, 64, 6, AlignCenter, AlignTop, FontPrimary, "Para Antonella");
+            app->widget, 64, 6, AlignCenter, AlignTop, FontPrimary, "For APA");
         widget_add_text_scroll_element(
             app->widget,
             0,
             20,
             128,
             30,
-            "La inspiración detrás de cada línea de código, cada idea y cada proyecto.");
+            "The inspiration behind every line of code, every idea, and every project.");
         widget_add_button_element(
             app->widget,
             GuiButtonTypeCenter,
-            "Continuar",
+            "Continue",
             loteria_scene_welcome_button_callback,
             app);
         break;
@@ -64,11 +64,11 @@ static void loteria_scene_welcome_show(LoteriaApp* app) {
             10,
             128,
             36,
-            "Porque las mejores creaciones nacen de aquello que más queremos.");
+            "Because the best creations are born from what we love most.");
         widget_add_button_element(
             app->widget,
             GuiButtonTypeCenter,
-            "Jugar",
+            "Play",
             loteria_scene_welcome_button_callback,
             app);
         break;
