@@ -27,4 +27,4 @@ Players use physical Loteria tablas while Flipper calls the cards.
 
 ## Dedication
 
-Dedicated to **APA** — the inspiration behind every line of code, every idea, and every project.
+Dedicated to **APA** - the inspiration behind every line of code, every idea, and every project.
