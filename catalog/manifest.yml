@@ -1,15 +1,17 @@
 # Draft for flipper-application-catalog PR.
-# Place at: applications/Games/loteria_zero/manifest.yml
-# Update commit_sha to the release commit after screenshots/docs are pushed.
+# Copy ONLY the YAML below (without these comments) to:
+#   applications/Games/loteria_zero/manifest.yml
 #
-# Validate with:
-#   python3 tools/bundle.py --nolint applications/Games/loteria_zero/manifest.yml bundle.zip
+# Validate (from flipper-application-catalog repo):
+#   python3 tools/bundle.py applications/Games/loteria_zero/manifest.yml bundle.zip
+#
+# Do NOT open the PR until authorized.
 
 sourcecode:
   type: git
   location:
     origin: https://github.com/databrainsco/Loteria_Zero.git
-    commit_sha: b8737c4b2d72d74aa214923c26d14f06ecb785ba
+    commit_sha: 3e5d99d985757be1777a16f87d62b3babb64a7ec
 
 description: "@docs/description.md"
 changelog: "@docs/changelog.md"
