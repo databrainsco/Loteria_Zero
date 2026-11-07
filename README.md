@@ -200,6 +200,10 @@ One app per pull request. Update `commit_sha` to the release commit before openi
 2. Flipper fonts may not draw accented glyphs; display strings are ASCII-folded. Canonical text stays in `cards.json` and **Our story**.
 3. No voice audio: calling is visual (name + rhyme) with vibration on reveal.
 
+## License
+
+This project is released under the [MIT License](LICENSE).
+
 ## Credits
 
 - Tradition: popular Mexican Loteria
