@@ -7,10 +7,8 @@ typedef enum {
     WelcomePageCount,
 } WelcomePage;
 
-static void loteria_scene_welcome_button_callback(
-    GuiButtonType result,
-    InputType type,
-    void* context) {
+static void
+    loteria_scene_welcome_button_callback(GuiButtonType result, InputType type, void* context) {
     LoteriaApp* app = context;
     if(type != InputTypeShort) return;
     if(result == GuiButtonTypeCenter) {
@@ -26,13 +24,7 @@ static void loteria_scene_welcome_show(LoteriaApp* app) {
         widget_add_string_element(
             app->widget, 64, 10, AlignCenter, AlignTop, FontPrimary, "LOTERIA ZERO");
         widget_add_string_multiline_element(
-            app->widget,
-            64,
-            28,
-            AlignCenter,
-            AlignTop,
-            FontSecondary,
-            "Tradition in\nyour hands.");
+            app->widget, 64, 28, AlignCenter, AlignTop, FontSecondary, "Tradition in\nyour hands.");
         widget_add_button_element(
             app->widget,
             GuiButtonTypeCenter,
@@ -66,11 +58,7 @@ static void loteria_scene_welcome_show(LoteriaApp* app) {
             36,
             "Because the best creations are born from what we love most.");
         widget_add_button_element(
-            app->widget,
-            GuiButtonTypeCenter,
-            "Play",
-            loteria_scene_welcome_button_callback,
-            app);
+            app->widget, GuiButtonTypeCenter, "Play", loteria_scene_welcome_button_callback, app);
         break;
     default:
         break;

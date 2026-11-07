@@ -21,8 +21,7 @@ void loteria_scene_main_menu_on_enter(void* context) {
     submenu_reset(app->submenu);
     submenu_set_header(app->submenu, "Loteria Zero");
 
-    submenu_add_item(
-        app->submenu, "New game", MenuNewGame, loteria_scene_main_menu_callback, app);
+    submenu_add_item(app->submenu, "New game", MenuNewGame, loteria_scene_main_menu_callback, app);
 
     if(loteria_game_has_save(&app->game) || app->persist.has_saved_game) {
         submenu_add_item(
@@ -31,10 +30,8 @@ void loteria_scene_main_menu_on_enter(void* context) {
 
     submenu_add_item(
         app->submenu, "All cards", MenuAllCards, loteria_scene_main_menu_callback, app);
-    submenu_add_item(
-        app->submenu, "History", MenuHistory, loteria_scene_main_menu_callback, app);
-    submenu_add_item(
-        app->submenu, "Statistics", MenuStats, loteria_scene_main_menu_callback, app);
+    submenu_add_item(app->submenu, "History", MenuHistory, loteria_scene_main_menu_callback, app);
+    submenu_add_item(app->submenu, "Statistics", MenuStats, loteria_scene_main_menu_callback, app);
     submenu_add_item(
         app->submenu, "Our story", MenuOurStory, loteria_scene_main_menu_callback, app);
     submenu_add_item(

@@ -31,8 +31,7 @@ void loteria_scene_settings_on_enter(void* context) {
     variable_item_set_current_value_index(item, app->persist.auto_mode);
     variable_item_set_current_value_text(item, loteria_auto_mode_label(app->persist.auto_mode));
 
-    item = variable_item_list_add(
-        list, "Skip welcome", 2, loteria_settings_welcome_change, app);
+    item = variable_item_list_add(list, "Skip welcome", 2, loteria_settings_welcome_change, app);
     uint8_t skip = app->persist.skip_welcome ? 1 : 0;
     variable_item_set_current_value_index(item, skip);
     variable_item_set_current_value_text(item, skip ? "Yes" : "No");

@@ -8,8 +8,7 @@ typedef struct {
 } GameViewModel;
 
 static void loteria_game_view_redraw(LoteriaApp* app) {
-    with_view_model(
-        app->game_view, GameViewModel * model, { UNUSED(model); }, true);
+    with_view_model(app->game_view, GameViewModel * model, { UNUSED(model); }, true);
 }
 
 static void loteria_game_view_draw_callback(Canvas* canvas, void* model) {
@@ -93,8 +92,7 @@ void loteria_scene_game_on_enter(void* context) {
     app->viewing_previous = false;
     app->rhyme_scroll = 0;
 
-    with_view_model(
-        app->game_view, GameViewModel * model, { model->app = app; }, false);
+    with_view_model(app->game_view, GameViewModel * model, { model->app = app; }, false);
 
     view_set_orientation(app->game_view, ViewOrientationVertical);
     view_dispatcher_switch_to_view(app->view_dispatcher, LoteriaViewGame);
@@ -180,6 +178,5 @@ void loteria_game_view_setup(View* view, LoteriaApp* app) {
     view_set_context(view, app);
     view_set_draw_callback(view, loteria_game_view_draw_callback);
     view_set_input_callback(view, loteria_game_view_input_callback);
-    with_view_model(
-        view, GameViewModel * model, { model->app = app; }, true);
+    with_view_model(view, GameViewModel * model, { model->app = app; }, true);
 }

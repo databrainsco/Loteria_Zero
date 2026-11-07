@@ -150,14 +150,11 @@ extern const LoteriaCard loteria_cards[LOTERIA_CARD_COUNT];
     for card in cards:
         name = to_ascii(card["name"])
         rhyme = to_ascii(card["rhyme"])
-        lines.append(
-            "    {"
-            f'{card["id"]}, '
-            f'"{c_escape(name)}", '
-            f'"{c_escape(rhyme)}", '
-            f'&I_{card["image"]}'
-            "},"
-        )
+        # Multi-line initializers stay within clang-format column limits.
+        lines.append(f'    {{{card["id"]},')
+        lines.append(f'     "{c_escape(name)}",')
+        lines.append(f'     "{c_escape(rhyme)}",')
+        lines.append(f'     &I_{card["image"]}}},')
     lines.append("};")
     lines.append("")
     out_c.write_text("\n".join(lines), encoding="utf-8")

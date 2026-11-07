@@ -7,10 +7,7 @@ static const char* k_dedication_body =
     "The inspiration behind every line of code, every idea, and every project.\n\n"
     "Because the best creations are born from what we love most.";
 
-static void loteria_scene_our_story_button(
-    GuiButtonType result,
-    InputType type,
-    void* context) {
+static void loteria_scene_our_story_button(GuiButtonType result, InputType type, void* context) {
     LoteriaApp* app = context;
     if(type != InputTypeShort) return;
     UNUSED(result);
@@ -23,8 +20,7 @@ void loteria_scene_our_story_on_enter(void* context) {
 
     widget_add_string_element(
         app->widget, 64, 1, AlignCenter, AlignTop, FontSecondary, "A special dedication");
-    widget_add_string_element(
-        app->widget, 64, 12, AlignCenter, AlignTop, FontPrimary, "For APA");
+    widget_add_string_element(app->widget, 64, 12, AlignCenter, AlignTop, FontPrimary, "For APA");
     widget_add_text_scroll_element(app->widget, 2, 24, 124, 28, k_dedication_body);
     widget_add_button_element(
         app->widget, GuiButtonTypeLeft, "Back", loteria_scene_our_story_button, app);
@@ -192,8 +188,7 @@ void loteria_scene_all_cards_on_enter(void* context) {
     submenu_reset(app->submenu);
     submenu_set_header(app->submenu, "54 cards");
     for(uint8_t i = 0; i < LOTERIA_CARD_COUNT; i++) {
-        submenu_add_item(
-            app->submenu, loteria_cards[i].name, i, loteria_all_cards_callback, app);
+        submenu_add_item(app->submenu, loteria_cards[i].name, i, loteria_all_cards_callback, app);
     }
     submenu_set_selected_item(app->submenu, app->all_cards_index);
     view_dispatcher_switch_to_view(app->view_dispatcher, LoteriaViewSubmenu);
@@ -218,10 +213,7 @@ void loteria_scene_all_cards_on_exit(void* context) {
     widget_reset(app->widget);
 }
 
-static void loteria_scene_game_end_button(
-    GuiButtonType result,
-    InputType type,
-    void* context) {
+static void loteria_scene_game_end_button(GuiButtonType result, InputType type, void* context) {
     LoteriaApp* app = context;
     if(type != InputTypeShort) return;
     view_dispatcher_send_custom_event(app->view_dispatcher, (uint32_t)result);
@@ -232,13 +224,7 @@ void loteria_scene_game_end_on_enter(void* context) {
     widget_reset(app->widget);
     widget_add_string_element(
         app->widget, 64, 6, AlignCenter, AlignTop, FontPrimary, "GAME OVER!");
-    widget_add_text_scroll_element(
-        app->widget,
-        0,
-        20,
-        128,
-        24,
-        "May every board find a winner!");
+    widget_add_text_scroll_element(app->widget, 0, 20, 128, 24, "May every board find a winner!");
     widget_add_button_element(
         app->widget, GuiButtonTypeLeft, "Menu", loteria_scene_game_end_button, app);
     widget_add_button_element(

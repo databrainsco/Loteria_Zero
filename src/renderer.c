@@ -6,13 +6,13 @@
 #include <string.h>
 
 /* Vertical canvas: 64 x 128 */
-#define LOTERIA_SCREEN_W 64
-#define LOTERIA_SCREEN_H 128
-#define LOTERIA_LINE_H 9
-#define LOTERIA_MAX_LINES 24
+#define LOTERIA_SCREEN_W      64
+#define LOTERIA_SCREEN_H      128
+#define LOTERIA_LINE_H        9
+#define LOTERIA_MAX_LINES     24
 #define LOTERIA_RHYME_VISIBLE 5
-#define LOTERIA_RHYME_Y 72
-#define LOTERIA_RHYME_WIDTH 60
+#define LOTERIA_RHYME_Y       72
+#define LOTERIA_RHYME_WIDTH   60
 
 static size_t loteria_wrap_words(
     Canvas* canvas,
@@ -26,11 +26,13 @@ static size_t loteria_wrap_words(
     FuriString* current = furi_string_alloc();
 
     while(i < len && line_count < max_lines) {
-        while(i < len && text[i] == ' ') i++;
+        while(i < len && text[i] == ' ')
+            i++;
         if(i >= len) break;
 
         size_t word_start = i;
-        while(i < len && text[i] != ' ') i++;
+        while(i < len && text[i] != ' ')
+            i++;
         size_t word_len = i - word_start;
 
         FuriString* trial = furi_string_alloc_set(current);

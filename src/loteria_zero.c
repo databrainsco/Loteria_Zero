@@ -80,11 +80,9 @@ static LoteriaApp* loteria_app_alloc(void) {
     loteria_game_view_setup(app->game_view, app);
     view_dispatcher_add_view(app->view_dispatcher, LoteriaViewGame, app->game_view);
 
-    app->auto_timer =
-        furi_timer_alloc(loteria_auto_timer_callback, FuriTimerTypePeriodic, app);
+    app->auto_timer = furi_timer_alloc(loteria_auto_timer_callback, FuriTimerTypePeriodic, app);
 
-    view_dispatcher_attach_to_gui(
-        app->view_dispatcher, app->gui, ViewDispatcherTypeFullscreen);
+    view_dispatcher_attach_to_gui(app->view_dispatcher, app->gui, ViewDispatcherTypeFullscreen);
 
     return app;
 }
