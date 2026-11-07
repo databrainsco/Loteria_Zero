@@ -11,7 +11,7 @@ sourcecode:
   type: git
   location:
     origin: https://github.com/databrainsco/Loteria_Zero.git
-    commit_sha: 3e5d99d985757be1777a16f87d62b3babb64a7ec
+    commit_sha: 436f16c08cde1398706afe0e59868aa7a4a280fa
 
 description: "@docs/description.md"
 changelog: "@docs/changelog.md"
