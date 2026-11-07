@@ -12,11 +12,11 @@ Main menu:
 
 ![Main menu](screenshots/ss0.png)
 
-Vertical card view (name, art, and rhyme):
+Card view (rotated upright for reading; hold the Flipper vertically in-game):
 
-![Card view](screenshots/ss1.png)
+![Card view](screenshots/ss1_upright.png)
 
-![Next card](screenshots/ss2.png)
+![Next card](screenshots/ss2_upright.png)
 
 Menu navigation:
 
