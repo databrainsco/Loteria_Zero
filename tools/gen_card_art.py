@@ -30,14 +30,36 @@ def save(img: Image.Image, path: Path) -> None:
 
 
 def draw_gallo(d: ImageDraw.ImageDraw) -> None:
-    d.ellipse((16, 10, 32, 24), outline=BLACK)
-    d.polygon([(24, 8), (28, 14), (20, 14)], outline=BLACK)
-    d.polygon([(32, 16), (40, 14), (32, 20)], outline=BLACK)
-    d.ellipse((28, 14, 30, 16), fill=BLACK)
-    d.polygon([(20, 24), (28, 24), (30, 38), (18, 38)], outline=BLACK)
-    d.line((18, 38, 16, 44), fill=BLACK)
-    d.line((30, 38, 32, 44), fill=BLACK)
-    d.arc((10, 26, 22, 40), 200, 320, fill=BLACK)
+    # Classic side-facing rooster: comb, beak, wattle, tail fan, spur.
+    # Body
+    d.ellipse((14, 18, 34, 36), outline=BLACK)
+    d.ellipse((18, 22, 30, 32), outline=BLACK)
+    # Head
+    d.ellipse((28, 10, 40, 22), outline=BLACK)
+    d.ellipse((35, 14, 37, 16), fill=BLACK)  # eye
+    # Comb
+    d.polygon([(30, 10), (32, 4), (34, 10)], outline=BLACK)
+    d.polygon([(33, 10), (36, 3), (38, 11)], outline=BLACK)
+    d.polygon([(36, 11), (40, 5), (41, 12)], outline=BLACK)
+    # Beak
+    d.polygon([(40, 15), (46, 16), (40, 18)], outline=BLACK)
+    # Wattle
+    d.arc((36, 18, 42, 26), 20, 200, fill=BLACK)
+    # Neck
+    d.line((30, 20, 26, 26), fill=BLACK)
+    d.line((34, 20, 30, 26), fill=BLACK)
+    # Tail feathers (fan)
+    d.arc((4, 14, 20, 36), 200, 40, fill=BLACK)
+    d.arc((6, 12, 22, 34), 210, 30, fill=BLACK)
+    d.arc((8, 10, 24, 32), 220, 20, fill=BLACK)
+    d.line((12, 16, 18, 24), fill=BLACK)
+    d.line((10, 20, 18, 26), fill=BLACK)
+    # Legs + spur
+    d.line((22, 36, 20, 44), fill=BLACK)
+    d.line((28, 36, 30, 44), fill=BLACK)
+    d.line((20, 44, 16, 44), fill=BLACK)
+    d.line((30, 44, 34, 44), fill=BLACK)
+    d.line((28, 40, 32, 38), fill=BLACK)
 
 
 def draw_diablito(d: ImageDraw.ImageDraw) -> None:
@@ -168,10 +190,35 @@ def draw_bandera(d: ImageDraw.ImageDraw) -> None:
 
 
 def draw_bandolon(d: ImageDraw.ImageDraw) -> None:
-    d.ellipse((12, 18, 30, 38), outline=BLACK)
-    d.ellipse((16, 22, 26, 34), outline=BLACK)
-    d.polygon([(28, 24), (40, 12), (42, 16), (30, 28)], outline=BLACK)
-    d.line((30, 20, 38, 14), fill=BLACK)
+    # Classic bandolon / mandolin: teardrop body, sound hole, bridge, fretted neck, pegbox.
+    # Body (pear / teardrop)
+    d.ellipse((8, 16, 34, 42), outline=BLACK)
+    d.ellipse((12, 20, 30, 38), outline=BLACK)
+    # Sound hole
+    d.ellipse((17, 26, 25, 34), outline=BLACK)
+    d.ellipse((19, 28, 23, 32), fill=BLACK)
+    # Bridge
+    d.line((14, 36, 28, 36), fill=BLACK)
+    d.line((14, 37, 28, 37), fill=BLACK)
+    # Strings over body
+    d.line((19, 30, 16, 36), fill=BLACK)
+    d.line((21, 30, 20, 36), fill=BLACK)
+    d.line((23, 30, 24, 36), fill=BLACK)
+    d.line((25, 30, 28, 36), fill=BLACK)
+    # Neck
+    d.polygon([(26, 18), (42, 8), (44, 12), (28, 22)], outline=BLACK)
+    # Frets
+    d.line((30, 16, 32, 20), fill=BLACK)
+    d.line((34, 13, 36, 17), fill=BLACK)
+    d.line((38, 11, 40, 15), fill=BLACK)
+    # Strings on neck
+    d.line((28, 19, 42, 9), fill=BLACK)
+    d.line((29, 21, 43, 11), fill=BLACK)
+    # Pegbox + pegs
+    d.polygon([(41, 8), (45, 5), (46, 10), (43, 12)], outline=BLACK)
+    d.ellipse((43, 4, 45, 6), outline=BLACK)
+    d.ellipse((45, 7, 47, 9), outline=BLACK)
+    d.ellipse((42, 10, 44, 12), outline=BLACK)
 
 
 def draw_violoncello(d: ImageDraw.ImageDraw) -> None:

@@ -12,7 +12,7 @@ Main menu:
 
 ![Main menu](screenshots/ss0.png)
 
-Card view (rotated upright for reading; hold the Flipper vertically in-game):
+Card view - El Gallo (1) and El Bandolon (17), upright for reading:
 
 ![Card view](screenshots/ss1_upright.png)
 
