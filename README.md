@@ -1,10 +1,28 @@
-# LOTERÍA ZERO
+# Loteria Zero
 
-**La tradición en tus manos.**
+**Tradition in your hands.**
 
-Aplicación nativa (`.fap`) para **Flipper Zero** que convierte el dispositivo en un **cantor digital** de la Lotería Mexicana tradicional de 54 cartas.
+Native Flipper Zero app (`.fap`) that turns the device into a **digital caller** for classic Mexican Loteria (54 cards).
 
-Identidad visual: tradición mexicana + estética retro + minimalismo monocromo Flipper.
+Visual identity: Mexican tradition + retro aesthetic + Flipper monochrome minimalism.
+
+## Screenshots
+
+Main menu:
+
+![Main menu](screenshots/ss0.png)
+
+Vertical card view (name, art, and rhyme):
+
+![Card view](screenshots/ss1.png)
+
+![Next card](screenshots/ss2.png)
+
+Menu navigation:
+
+![Continue game](screenshots/ss3.png)
+
+![All cards and History](screenshots/ss4.png)
 
 ---
 
@@ -18,43 +36,43 @@ Because the best creations are born from what we love most.
 
 ---
 
-## Características
+## Features
 
-- Catálogo completo de las **54 cartas** tradicionales
-- **Rimas originales** al estilo de pregón familiar
-- Ilustraciones **1-bit** originales optimizadas para 128×64
-- Mezcla **Fisher-Yates** sin repeticiones
-- Vista de carta en **orientación vertical** (gira el Flipper)
-- Historial de cantadas / pendientes
-- Estadísticas persistentes
-- Modo automático (5 / 10 / 15 s o manual)
-- Bienvenida dedicada (omitible tras la primera vez)
-- Sección **Nuestra historia**
+- Full deck of **54 traditional cards**
+- Original Spanish **rhymes** (ASCII-folded on device)
+- Original **1-bit** illustrations for 128x64
+- Fisher-Yates shuffle with no repeats in a game
+- Vertical card view (rotate the Flipper)
+- History of called / pending cards
+- Persistent statistics
+- Auto-call mode (5 / 10 / 15 s or manual)
+- Dedicated welcome (skippable after first run)
+- **Our story** section
 
-## Arquitectura
+## Architecture
 
-`cards.json` es la **única fuente de verdad** del catálogo. En compilación se genera código C estático (`src/cards_data.c`) para evitar parseo JSON en el dispositivo (RAM y dependencias).
+`cards.json` is the **single source of truth** for the catalog. At build time it becomes static C (`src/cards_data.c`) so the device never parses JSON.
 
-| Módulo | Rol |
-|--------|-----|
-| `cards.json` + `tools/gen_cards.py` | Catálogo y validación |
-| `tools/gen_card_art.py` | Ilustraciones 1-bit |
-| `src/game.c` | Motor / shuffle / progreso |
-| `src/renderer.c` | Dibujo de carta vertical |
-| `src/storage.c` | Persistencia (`saved_struct`) |
-| `src/scenes/*` | Navegación SceneManager |
-| `src/loteria_zero.c` | Entry point FAP |
+| Module | Role |
+|--------|------|
+| `cards.json` + `tools/gen_cards.py` | Catalog and validation |
+| `tools/gen_card_art.py` | 1-bit illustrations |
+| `src/game.c` | Engine / shuffle / progress |
+| `src/renderer.c` | Vertical card drawing |
+| `src/storage.c` | Persistence (`saved_struct` via `APP_DATA_PATH`) |
+| `src/scenes/*` | SceneManager navigation |
+| `src/loteria_zero.c` | FAP entry point |
 
-### Orientación de pantalla
+### Screen orientation
 
-Se eligió la **alternativa A híbrida**:
+Hybrid layout:
 
-- Menús en horizontal nativo (128×64)
-- Partida con `ViewOrientationVertical` (canvas lógico 64×128)
+- Menus stay in native landscape (128x64)
+- Gameplay uses `ViewOrientationVertical` (logical canvas 64x128)
 
-La pantalla física no cambia de tamaño: el usuario gira el Flipper (D-pad abajo). El firmware remapea los botones oficialmente.
+The physical panel does not resize: hold the Flipper with the D-pad at the bottom. Firmware remaps buttons.
 
-## Estructura
+## Structure
 
 ```
 loteria-zero/
@@ -62,107 +80,131 @@ loteria-zero/
 ├── cards.json
 ├── loteria_zero.png
 ├── README.md
-├── images/                 # 54 PNG 1-bit (+ iconos)
-├── files/cards.json        # asset empaquetado en el FAP
+├── docs/                   # Catalog description + changelog
+├── screenshots/            # Catalog / README captures
+├── catalog/manifest.yml    # Draft for Apps Catalog PR
+├── images/                 # 54 PNG 1-bit (+ icons)
+├── files/cards.json        # Asset packed into the FAP
 ├── src/
 │   ├── loteria_zero.c/.h
-│   ├── cards_data.c/.h     # generado
+│   ├── cards_data.c/.h     # generated
 │   ├── game.c/.h
 │   ├── renderer.c/.h
 │   ├── storage.c/.h
 │   └── scenes/
 ├── tools/
 │   ├── gen_cards.py
-│   └── gen_card_art.py
+│   ├── gen_card_art.py
+│   └── capture_screenshots.py
 ├── tests/
-└── dist/loteria_zero.fap   # tras compilar
+└── dist/loteria_zero.fap   # after build
 ```
 
-## Requisitos
+## Requirements
 
 - Python 3.8+
 - [uFBT](https://github.com/flipperdevices/flipperzero-ufbt) (`pip install --upgrade ufbt`)
-- Pillow (para regenerar arte): `pip install pillow`
-- Firmware Flipper compatible con el SDK de uFBT (probado con **release 1.5.1 / API 88.2**)
+- Pillow (to regenerate art): `pip install pillow`
+- Flipper firmware matching the uFBT SDK (tested on **release 1.5.1 / API 88.2**)
 
-## Compilación
+## Build
 
 ```bash
-# Instalar herramienta
+# Install tooling
 python3 -m pip install --upgrade ufbt pillow
 
-# Regenerar catálogo C e ilustraciones (si cambias cards.json)
+# Regenerate C catalog and art (when cards.json changes)
 python3 tools/gen_card_art.py
 python3 tools/gen_cards.py --json cards.json --out-h src/cards_data.h --out-c src/cards_data.c --images images
 
-# Compilar FAP
+# Build FAP
 ufbt
 ```
 
-El artefacto queda en:
+Artifact:
 
 `dist/loteria_zero.fap`
 
-## Instalación en Flipper Zero
+After regenerating sources, run `ufbt format` (or `ufbt lint`) so clang-format stays clean for catalog checks.
 
-1. Conecta el Flipper por USB
-2. `ufbt launch` (compila, sube y ejecuta), **o**
-3. Copia `dist/loteria_zero.fap` a `SD Card/apps/Games/` con qFlipper
-4. Abre **Apps → Games → Loteria Zero**
+## Install on Flipper Zero
 
-Si hay mismatch de API/SDK: `ufbt flash_usb` (actualiza firmware al canal del SDK).
+1. Connect Flipper over USB
+2. `ufbt launch` (build, upload, run), **or**
+3. Copy `dist/loteria_zero.fap` to `SD Card/apps/Games/` with qFlipper
+4. Open **Apps → Games → Loteria Zero**
 
-## Controles
+If the API/SDK mismatches: `ufbt flash_usb` (updates firmware to the SDK channel).
 
-### Menús
-| Botón | Acción |
-|-------|--------|
-| UP / DOWN | Navegar |
-| OK | Seleccionar |
-| BACK | Volver / salir |
+## Controls
 
-### Partida (Flipper en vertical)
-| Botón | Acción |
-|-------|--------|
-| OK | Cantar siguiente carta |
-| LEFT | Ver carta anterior |
-| RIGHT | Volver a la carta actual |
-| UP | Pausar / reanudar |
-| DOWN | Pausar modo auto |
-| BACK | Guardar y menú |
+### Menus
 
-## Configuración
+| Button | Action |
+|--------|--------|
+| UP / DOWN | Navigate |
+| OK | Select |
+| BACK | Back / exit |
 
-- **Modo auto**: Manual, 5s, 10s, 15s
-- **Omitir bienvenida**: tras la primera ejecución
+### Game (Flipper held vertically)
 
-## Catálogo
+| Button | Action |
+|--------|--------|
+| OK / Right | Call next card |
+| Left | Peek previous card |
+| Up / Down | Scroll the rhyme |
+| BACK | Save and return to menu |
 
-Las 54 cartas tradicionales (El Gallo … La Rana), cada una con:
+Down also pauses auto-call when a timed mode is active.
+
+## Settings
+
+- **Auto mode**: Manual, 5s, 10s, 15s
+- **Skip welcome**: after the first run
+
+## Catalog data
+
+The 54 traditional cards (El Gallo … La Rana), each with:
 
 - `id`, `name`, `image`, `rhyme`
 
-Edita `cards.json` y regenera con los scripts de `tools/`.
+Edit `cards.json` and regenerate with the scripts in `tools/`.
 
-## Pruebas
+Spanish names and rhymes are kept; on-device text is ASCII-folded so Flipper fonts do not show blank boxes.
+
+## Tests
 
 ```bash
 python3 -m unittest tests/test_catalog.py -v
 ```
 
-Valida: 54 cartas, IDs únicos, rimas, ilustraciones, orden tradicional, shuffle sin duplicados y dedicación en el README.
+Checks: 54 cards, unique IDs, rhymes, illustrations, traditional order, shuffle without duplicates, and the README dedication.
 
-## Limitaciones técnicas
+## Apps Catalog
 
-1. Orientación vertical solo en capa fullscreen (restricción del GUI del firmware).
-2. Fuentes del Flipper pueden no dibujar todos los glifos acentuados; el texto canónico completo vive en este README y en `Nuestra historia`.
-3. No hay audio de voz: el “canto” es visual (nombre + rima) con vibración al revelar.
+Catalog-facing copy lives in `docs/description.md` and `docs/changelog.md` (allowed markdown only — do not point the catalog at this README).
 
-## Créditos
+Draft manifest: `catalog/manifest.yml` → copy to `applications/Games/loteria_zero/manifest.yml` in [flipper-application-catalog](https://github.com/flipperdevices/flipper-application-catalog).
 
-- Tradición: Lotería Mexicana popular
-- Plataforma: Flipper Zero Official Firmware SDK / uFBT
-- Proyecto: **Lotería Zero**
+Validate:
+
+```bash
+python3 tools/bundle.py applications/Games/loteria_zero/manifest.yml bundle.zip
+```
+
+One app per pull request. Update `commit_sha` to the release commit before opening the PR.
+
+## Technical limits
+
+1. Vertical orientation only works on the fullscreen view layer (firmware GUI limit).
+2. Flipper fonts may not draw accented glyphs; display strings are ASCII-folded. Canonical text stays in `cards.json` and **Our story**.
+3. No voice audio: calling is visual (name + rhyme) with vibration on reveal.
+
+## Credits
+
+- Tradition: popular Mexican Loteria
+- Platform: Flipper Zero Official Firmware SDK / uFBT
+- Project: **Loteria Zero**
 
 ## A special dedication
 
